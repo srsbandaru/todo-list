@@ -9,6 +9,7 @@ class Task(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=255)
     task_owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    due_date = models.DateField(default=timezone.now, blank=True)
 
     def __str__(self):
         return f"{self.title}"
