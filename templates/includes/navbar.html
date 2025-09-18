@@ -1,0 +1,23 @@
+{% load static %}
+<nav class="navbar navbar-expand-sm bg-primary" aria-label="Todo Navbar">
+    <div class="container-fluid">
+        <a href="/" class="navbar-brand">
+            <img src="{% static 'tasks/img/todo-list-logo.png' %}" alt="" width="50" height="50">
+            <span class="text-light">Todo List</span>
+        </a> 
+        <button class="navbar-toggler navbar-dark border border-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" 
+        aria-control="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav me-auto mb-2">
+                <li class="navbar-item">
+                    <a class="text-light nav-link" href="/">Home</a>
+                </li>
+                <li class="navbar-item">
+                    <a class="text-light nav-link" href="{% url 'tasks:TaskList' %}">Tasks</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

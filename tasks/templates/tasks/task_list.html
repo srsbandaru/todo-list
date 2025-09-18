@@ -1,0 +1,40 @@
+{% extends "base_master.html" %}
+{% block title %}
+    Tasks
+{% endblock title %}
+{% block content %}
+    <div class="container mt-4">
+        <button class="btn btn-primary" onclick="window.location = '{% url 'tasks:CreateTask' %}'">Create Task</button>
+        <hr>
+        {% if task_list %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Details</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in task_list %}
+                        <tr>
+                            <td>{{task.title}}</td>
+                            <td>{{task.details}}</td>
+                            <td>{{task.status}}</td>
+                            <td>
+                                <button class="btn btn-warning" onclick="window.location = '{% url 'tasks:UpdateTask' task.id %}'">Update</button>
+                                <button class="btn btn-success" onclick="window.location = '{% url 'tasks:CompleteTask' task.id %}'">Complete</button>
+                                <button class="btn btn-danger" onclick="window.location = '{% url 'tasks:DeleteTask' task.id %}'">Delete</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert alert-info">
+                There are no tasks in database
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

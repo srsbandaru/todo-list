@@ -1,0 +1,15 @@
+{% extends "base_master.html" %}
+{% load django_bootstrap5 %}
+{% block title %}
+    Task Form
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        <h1>Task Form</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+{% endblock content %}

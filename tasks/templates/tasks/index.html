@@ -1,0 +1,21 @@
+{% extends "base_master.html" %}
+{% block title %}
+    Todo List
+{% endblock title %}
+{% load static %}
+{% block content %}
+    <div class="container my-5">
+        <div class="p-5 text-center bg-body-tertiary rounded-3">
+            <img class="img-fluid" src="{% static 'tasks/img/todo-list-logo.png' %}">
+            <h1>Todo List</h1>
+            <p class="text-muted">
+                Go to the tasks list
+            </p>
+            <div class="d-inline-flex gap-2 mb-5">
+                <button class="btn btn-primary rounded-pill" type="button" onclick="window.location = '{% url 'tasks:TaskList' %}'">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
