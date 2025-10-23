@@ -5,11 +5,25 @@
 {% endblock title %}
 {% block content %}
     <div class="container">
-        <h1>Task Form</h1>
+        <h1>
+            {% if form_type == "Update" %}
+                Update Task
+            {% else %}
+                Create Task
+            {% endif %} 
+        </h1>
         <form action="" method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-primary" type="submit">
+                {% if form_type == "Update" %}
+                    Update
+                {% else %}
+                    Create
+                {% endif %}
+            </button>
+            <button type="button" class="btn btn-danger" 
+            onclick="window.location = '{% url 'tasks:TaskList' %}'">Back</button>
         </form>
     </div>
 {% endblock content %}

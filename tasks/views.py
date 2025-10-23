@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, get_object_or_404
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, RedirectView, DeleteView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, RedirectView, DeleteView
 from tasks.models import Task
 from tasks.forms import TaskForm
 from django.urls import reverse_lazy
@@ -18,6 +18,12 @@ class TaskList(ListView):
         # Get all the tasks where the status is Created or Updated
         queryset = Task.objects.filter(status__in=["Created","Updated"])
         return queryset
+    
+class TaskDetails(DetailView):
+    template_name = "tasks/task_detail.html"
+    model = Task
+    pk_url_kwarg = 'pk'
+    http_method_names = ['get', 'post']
 
 class CreateTask(CreateView):
     template_name = "tasks/task_form.html"
@@ -34,17 +40,19 @@ class CreateTask(CreateView):
 
         obj = form.save(commit=False)
         obj.status = "Created"
-        obj.save()
+        obj.task_owner = self.request.user
+        obj.save() 
 
         messages.success(request, "Task has been created successfully")
         return redirect(self.success_url)
-    
-    
+   
 class UpdateTask(UpdateView):
     template_name = "tasks/task_form.html"
     fields = ["title", "details"]
     pk_url_kwarg = 'pk'
     model = Task
+    context_object_name = "tasks"
+    extra_context = {"form_type":"Update"}
     http_method_names = ["get", "post"]
     success_url = reverse_lazy("tasks:TaskList")
 

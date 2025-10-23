@@ -13,6 +13,7 @@
                         <th scope="col">Title</th>
                         <th scope="col">Details</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Due Date</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -22,10 +23,12 @@
                             <td>{{task.title}}</td>
                             <td>{{task.details}}</td>
                             <td>{{task.status}}</td>
+                            <td>{{task.due_date}}</td>
                             <td>
-                                <button class="btn btn-warning" onclick="window.location = '{% url 'tasks:UpdateTask' task.id %}'">Update</button>
+                                <button class="btn btn-secondary" onclick="window.location = '{% url 'tasks:TaskDetails' task.id %}'">View Details</button>
+                                <!-- <button class="btn btn-warning" onclick="window.location = '{% url 'tasks:UpdateTask' task.id %}'">Update</button>
                                 <button class="btn btn-success" onclick="window.location = '{% url 'tasks:CompleteTask' task.id %}'">Complete</button>
-                                <button class="btn btn-danger" onclick="window.location = '{% url 'tasks:DeleteTask' task.id %}'">Delete</button>
+                                <button class="btn btn-danger" onclick="window.location = '{% url 'tasks:DeleteTask' task.id %}'">Delete</button> -->
                             </td>
                         </tr>
                     {% endfor %}

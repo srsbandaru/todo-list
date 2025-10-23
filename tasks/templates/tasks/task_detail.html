@@ -1,0 +1,16 @@
+{% extends "base_master.html" %}
+{% block title %}
+    Task Detail
+{% endblock title %}
+{% block content %}
+    <div class="container mt-3">
+        <h1>Task Detail</h1>
+        <p>Title : {{task.title}}</p>
+        <p>Status : {{task.status}}</p>
+        <p>Due Date : {{task.due_date}}</p>
+        <button class="btn btn-secondary" onclick="window.location = '{% url 'tasks:TaskList' %}'">Back</button>
+        <button class="btn btn-success" onclick="window.location = '{% url 'tasks:UpdateTask' task.id %}'">Edit</button>
+        <button class="btn btn-warning" onclick="window.location = '{% url 'tasks:CompleteTask' task.id %}'">Complete</button>
+        <button class="btn btn-danger" onclick="window.location = '{% url 'tasks:DeleteTask' task.id %}'">Delete</button>
+    </div>
+{% endblock content %}
