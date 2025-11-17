@@ -19,5 +19,11 @@
                 </li>
             </ul>
         </div>
+        {% if request.user.is_authenticated %}
+            <button class="btn btn-danger" type="button" onclick="window.location = '{% url 'account_logout' %}'">Logout</button>
+        {% else %}
+            <button class="btn btn-outline-light" type="button" onclick="window.location = '{% url 'account_login' %}'">Login</button>
+            <button class="btn btn-warning" type="button" onclick="window.location = '{% url 'account_signup' %}'">Sign Up</button>
+        {% endif %}
     </div>
 </nav>

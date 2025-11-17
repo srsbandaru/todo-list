@@ -11,6 +11,5 @@
         <button class="btn btn-secondary" onclick="window.location = '{% url 'tasks:TaskList' %}'">Back</button>
         <button class="btn btn-success" onclick="window.location = '{% url 'tasks:UpdateTask' task.id %}'">Edit</button>
         <button class="btn btn-warning" onclick="window.location = '{% url 'tasks:CompleteTask' task.id %}'">Complete</button>
-        <button class="btn btn-danger" onclick="window.location = '{% url 'tasks:DeleteTask' task.id %}'">Delete</button>
     </div>
 {% endblock content %}

@@ -1,0 +1,38 @@
+{% extends "base_master.html" %}
+{% block title %}
+    Tasks
+{% endblock title %}
+{% block content %}
+    <div class="container mt-4">
+        <h1>Completed Task List</h1>
+        <hr>
+        {% if completed_task_list %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Details</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for completed_task in completed_task_list %}
+                        <tr>
+                            <td>{{completed_task.title}}</td>
+                            <td>{{completed_task.details}}</td>
+                            <td>{{completed_task.status}}</td>
+                            <td>{{completed_task.due_date}}</td>
+                            <td>
+                                <button class="btn btn-warning" onclick="">Restore</button>
+                                <button class="btn btn-danger" onclick="window.location = '{% url 'tasks:DeleteTask' completed_task.id %}'">Delete</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button class="btn btn-secondary" onclick="window.location = '{% url 'tasks:TaskList' %}'">Back</button>
+        {% endif %}
+    </div>
+{% endblock content %}

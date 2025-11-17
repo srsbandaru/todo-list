@@ -1,5 +1,7 @@
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, RedirectView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from tasks.models import Task
 from tasks.forms import TaskForm
 from django.urls import reverse_lazy
@@ -9,23 +11,23 @@ from django.contrib import messages
 class IndexView(TemplateView):
     template_name = "tasks/index.html"
 
-class TaskList(ListView):
+class TaskList(LoginRequiredMixin, ListView):
     template_name = "tasks/task_list.html"
     model = Task
     context_object_name = "task_list"
 
     def get_queryset(self):
         # Get all the tasks where the status is Created or Updated
-        queryset = Task.objects.filter(status__in=["Created","Updated"])
+        queryset = Task.objects.filter(status__in=["Created", "Updated"])
         return queryset
     
-class TaskDetails(DetailView):
+class TaskDetails(LoginRequiredMixin, DetailView):
     template_name = "tasks/task_detail.html"
     model = Task
     pk_url_kwarg = 'pk'
     http_method_names = ['get', 'post']
 
-class CreateTask(CreateView):
+class CreateTask(LoginRequiredMixin, CreateView):
     template_name = "tasks/task_form.html"
     context_object_name = "tasks"
     fields = ["title", "details"]
@@ -46,7 +48,7 @@ class CreateTask(CreateView):
         messages.success(request, "Task has been created successfully")
         return redirect(self.success_url)
    
-class UpdateTask(UpdateView):
+class UpdateTask(LoginRequiredMixin, UpdateView):
     template_name = "tasks/task_form.html"
     fields = ["title", "details"]
     pk_url_kwarg = 'pk'
@@ -70,19 +72,27 @@ class UpdateTask(UpdateView):
         messages.success(request, "Task has been updated successfully. ")
         return redirect(self.success_url)
 
-class CompleteTask(RedirectView):
+class CompleteTask(LoginRequiredMixin, RedirectView):
     success_url = reverse_lazy("tasks:TaskList")
 
     def get(self, request, *args, **kwargs):
         task = Task.objects.get(id=self.kwargs["pk"])
         task.status = "Completed"
         task.save()
+        messages.success(request, "Task has been completed successfully. ")
         return redirect(self.success_url)
+
+class CompletedTaskList(LoginRequiredMixin, ListView):
+    template_name = "tasks/completed_task_list.html"
+    context_object_name = "completed_task_list"
+    model = Task
     
-class DeleteTask(DeleteView):
+
+class DeleteTask(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     template_name = "tasks/task_confirm_delete.html"
     model = Task
     pk_url_kwarg = 'pk'
     context_object_name = "task"
-    success_url = reverse_lazy("tasks:TaskList")
+    success_url = reverse_lazy("tasks:CompleteTaskList")
     http_method_names = ["get", "post"]
+    success_message = "Task has been deleted successfully. "

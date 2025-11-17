@@ -1,0 +1,25 @@
+{% extends "account/base_entrance.html" %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% block title %}
+    Login
+{% endblock title %}
+{% block content %}
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col">
+               <a href="{% url 'tasks:IndexView' %}"><img src="{% static 'tasks/img/todo-list-logo.png' %}"></a> 
+            </div>
+            <div class="col">
+                <div class="bg-light p-5 border">
+                    <h1 class="text-center">Todo List Login</h1>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <button type="submit" class="btn btn-primary" >Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -5,6 +5,7 @@
 {% block content %}
     <div class="container mt-4">
         <button class="btn btn-primary" onclick="window.location = '{% url 'tasks:CreateTask' %}'">Create Task</button>
+        <button class="btn btn-warning" onclick="window.location = '{% url 'tasks:CompleteTaskList' %}'">View Completed Task</button>
         <hr>
         {% if task_list %}
             <table class="table">
