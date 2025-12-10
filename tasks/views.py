@@ -18,7 +18,7 @@ class TaskList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         # Get all the tasks where the status is Created or Updated
-        queryset = Task.objects.filter(status__in=["Created", "Updated"])
+        queryset = Task.objects.filter(status__in=["Created", "Updated", "Restored"], task_owner=self.request.user)
         return queryset
     
 class TaskDetails(LoginRequiredMixin, DetailView):
@@ -30,7 +30,8 @@ class TaskDetails(LoginRequiredMixin, DetailView):
 class CreateTask(LoginRequiredMixin, CreateView):
     template_name = "tasks/task_form.html"
     context_object_name = "tasks"
-    fields = ["title", "details"]
+    # fields = ["title", "details", "due_date"]
+    form_class = TaskForm
     model = Task
     success_url = reverse_lazy("tasks:TaskList")
 
@@ -42,7 +43,8 @@ class CreateTask(LoginRequiredMixin, CreateView):
 
         obj = form.save(commit=False)
         obj.status = "Created"
-        obj.task_owner = self.request.user
+        obj.task_owner = self.request.user 
+        print(self.request.user)
         obj.save() 
 
         messages.success(request, "Task has been created successfully")
@@ -50,7 +52,8 @@ class CreateTask(LoginRequiredMixin, CreateView):
    
 class UpdateTask(LoginRequiredMixin, UpdateView):
     template_name = "tasks/task_form.html"
-    fields = ["title", "details"]
+    # fields = ["title", "details", "due_date"]
+    form_class = TaskForm
     pk_url_kwarg = 'pk'
     model = Task
     context_object_name = "tasks"
@@ -87,6 +90,19 @@ class CompletedTaskList(LoginRequiredMixin, ListView):
     context_object_name = "completed_task_list"
     model = Task
     
+    def get_queryset(self):
+        queryset = Task.objects.filter(status__in=["Completed"])
+        return queryset
+    
+class RestoreTask(LoginRequiredMixin, RedirectView):
+    success_url = reverse_lazy("tasks:TaskList")
+
+    def get(self, request, *args, **kwargs):
+        task = Task.objects.get(id=self.kwargs["pk"])
+        task.status = "Restored"
+        task.save()
+        messages.success(request, "Task has been restored successfully. ")
+        return redirect(self.success_url)
 
 class DeleteTask(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     template_name = "tasks/task_confirm_delete.html"

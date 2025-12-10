@@ -13,6 +13,7 @@
                     <tr>
                         <th scope="col">Title</th>
                         <th scope="col">Details</th>
+                        <th scope="col">Task Owner</th>
                         <th scope="col">Status</th>
                         <th scope="col">Due Date</th>
                         <th scope="col">Actions</th>
@@ -20,9 +21,10 @@
                 </thead>
                 <tbody>
                     {% for task in task_list %}
-                        <tr>
+                        <tr class="{% if task.is_overdue %}table-danger{% endif %}">
                             <td>{{task.title}}</td>
                             <td>{{task.details}}</td>
+                            <td>{{task.task_owner}}</td>
                             <td>{{task.status}}</td>
                             <td>{{task.due_date}}</td>
                             <td>

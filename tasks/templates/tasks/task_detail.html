@@ -3,7 +3,7 @@
     Task Detail
 {% endblock title %}
 {% block content %}
-    <div class="container mt-3">
+    <div class="container {% if task.is_overdue %}bg-danger-subtle{% endif %} p-3 mt-3">
         <h1>Task Detail</h1>
         <p>Title : {{task.title}}</p>
         <p>Status : {{task.status}}</p>

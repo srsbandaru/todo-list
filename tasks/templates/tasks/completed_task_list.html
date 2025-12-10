@@ -25,7 +25,7 @@
                             <td>{{completed_task.status}}</td>
                             <td>{{completed_task.due_date}}</td>
                             <td>
-                                <button class="btn btn-warning" onclick="">Restore</button>
+                                <button class="btn btn-warning" onclick="window.location = '{% url 'tasks:RestoreTask' completed_task.id %}'">Restore</button>
                                 <button class="btn btn-danger" onclick="window.location = '{% url 'tasks:DeleteTask' completed_task.id %}'">Delete</button>
                             </td>
                         </tr>
